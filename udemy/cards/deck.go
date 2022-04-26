@@ -3,8 +3,10 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"os"
 	"strings"
+	"time"
 )
 
 // Create a new type of 'deck' which is a slice of strings
@@ -31,13 +33,13 @@ func newDeck() deck {
 
 func (d deck) print() {
 	for i, card := range d {
-		fmt.Println(i+1, card)
+		fmt.Println(i, card)
 	}
 }
 
-func deal(d deck, handSize int) (deck, deck) {
-	return d[:handSize], d[handSize:]
-}
+// func deal(d deck, handSize int) (deck, deck) {
+// 	return d[:handSize], d[handSize:]
+// }
 
 func (d deck) toString() string {
 	return strings.Join([]string(d), ",")
@@ -54,5 +56,21 @@ func newDeckFromFile(filename string) deck {
 		// Option #2 - Log the error and entirely quit the program
 		fmt.Println("Error:", err)
 		os.Exit(1)
+	}
+
+	s := strings.Split(string(bs), ",") // Ace of Spades,Two of Spades,Three of Spades,...
+	return deck(s)
+}
+
+func (d deck) shuffle() {
+	// Useful for array/slice random generation
+	// Changes randomization seed of the import each time shuffle is called; uses time unix value (epoch) to generate seed value (changes every milisecond)
+	source := rand.NewSource(time.Now().UnixNano())
+	r := rand.New(source)
+
+	for i := range d {
+		newPosition := r.Intn(len(d) - 1)
+
+		d[i], d[newPosition] = d[newPosition], d[i]
 	}
 }
