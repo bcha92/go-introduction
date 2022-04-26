@@ -19,7 +19,6 @@ func main() {
 	for _, num := range numbers {
 		if num%2 == 0 { // Using % as a math operation ensures if there is a remainder after dividing by 2 (even numbers always has a remainder of 0)
 			fmt.Println(num, "is even")
-			continue
 		} else {
 			fmt.Println(num, "is odd")
 		}
