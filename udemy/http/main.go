@@ -18,7 +18,6 @@ func main() {
 	}
 
 	lw := logWriter{}
-
 	io.Copy(lw, resp.Body)
 }
 
